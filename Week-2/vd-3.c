@@ -16,7 +16,7 @@ int main()
     char * p = strtok(addr_str, "(),");
     strcpy(ip, p);
 
-    // Loop for the last 3 Octet
+    // Loop for the last 3 Octets
     int i = 0;
     while (i < 3) {
         p = strtok(NULL, "(),");
