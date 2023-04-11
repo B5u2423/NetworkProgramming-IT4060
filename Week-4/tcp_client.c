@@ -7,7 +7,7 @@
 int main(int argc, char * argv[])
 {
     if (argc > 3) {
-        printf("Incorrect Input Format!\n");
+        printf("[ERROR]: Incorrect Input Format!\n");
         return 100;
     }
 
