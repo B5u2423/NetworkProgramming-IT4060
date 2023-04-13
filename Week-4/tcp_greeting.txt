@@ -1,3 +1,4 @@
-Hello, you have connected to the server
-=======================================
-
+---------------------------------------------------------
+Hello, your connection has been established!
+Every message sent will be saved to a file on the server.
+---------------------------------------------------------
