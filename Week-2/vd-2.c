@@ -13,7 +13,7 @@ int main()
     int count = sscanf(buff ,"%s %f %f %s", cmd, &param_1, &param_2, tmp);  // Parsing parameters
 
     /****
-     * Input format: "Command num1 num2"
+     * [USAGE]: "Operaion num1 num2"
      * 
      * - Correct parameter count is 3, return [ERROR] message otherwise.
      * - 4 commands, return [ERROR] message if input command matches with none. 
@@ -21,14 +21,14 @@ int main()
     ****/ 
     
     if ( count != 3 ) {
-        printf("ERROR: Incorrect Input Format. Please follow the format \"Command num1 num2\".\n");
+        printf("[ERROR]: Incorrect Input Format. Please follow the format \"Command num1 num2\".\n");
         return 100;
     } else if ( strcmp(cmd, "ADD") && strcmp(cmd, "SUB") &&
                 strcmp(cmd, "MUL") && strcmp(cmd, "DIV") ) {                    
-        printf("ERROR: Command Doesn't Exist. Please check your typo.\n");  
+        printf("[ERROR]: Command Doesn't Exist. Please check your typo.\n");  
         return 200;
     } else {
-        printf("OK: Correct Input\n");
+        printf("[OK]: Correct Input\n");
         return 0;
     }
 }

@@ -5,31 +5,31 @@
 int main()
 {
     char str[] = "227 Entering Passive Mode (213,229,112,130,216,4)"; // Input string
-    char ip[30];        // String for ip address.
-    int port[2];        // Variable for ports.
+    char ip[30];        // IP address.
+    int port[2];        // Port.
 
-    // Parsing the Socket info string.
+    // Parsing Socket info 
     char * addr_str = strchr(str, '(');
     printf("Address string: %s\n", addr_str);
 
     // First Octet
-    char * p = strtok(addr_str, "(),");
-    strcpy(ip, p);
+    char * tmp_str = strtok(addr_str, "(),");
+    strcpy(ip, tmp_str);
 
-    // Loop for the last 3 Octets
+    // The last 3 Octets
     int i = 0;
     while (i < 3) {
-        p = strtok(NULL, "(),");
+        tmp_str = strtok(NULL, "(),");
         strcat(ip, ".");            // Add '.' to separate octets.
-        strcat(ip, p);
+        strcat(ip, tmp_str);
         ++i;
     }
 
-    // Parsing and Convert string -> integer for port number.
+    // Parsing and Converting.
     i = 0;
     while (i < 2) {
-        p = strtok(NULL, "(),");
-        port[i] = atoi(p);          // Convert 
+        tmp_str = strtok(NULL, "(),");
+        port[i] = atoi(tmp_str);          // Convert 
         ++i;
     }
 
