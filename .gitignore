@@ -1,7 +1,8 @@
-# Files Without Extension
+# User Define
 *
 !*/
 !*.*
+.vscode
 
 # Prerequisites
 *.d
@@ -55,6 +56,3 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
-
-# User Defined
-.vscode

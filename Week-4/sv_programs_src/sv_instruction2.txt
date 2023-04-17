@@ -1,0 +1,6 @@
+----------------------------------
+Connection established!
+You can now start sending info
+----------------------------------
+Date of Birth format: YYYY-MM-DD
+----------------------------------

@@ -54,7 +54,6 @@ void GetTime(char * buff)
 
 int main (int argc, char * argv[])
 {
-    FILE * f_handler;
     char buff[MAX_SIZE];
 
     // Verifying command
@@ -105,7 +104,6 @@ int main (int argc, char * argv[])
     printf("Connection from: %s\n\n", inet_ntoa(clientAddr.sin_addr));
 
     // Receiving from client
-    f_handler = fopen(argv[2], "a");
     while(1) {
         char sub_buff[20];
         memset(sub_buff, 0, sizeof(sub_buff));      // Clear sub_buff
@@ -119,14 +117,9 @@ int main (int argc, char * argv[])
             buff[rcv_byte] = 0;
         
         // Save to file
-        GetTime(sub_buff);
-        fprintf(f_handler, "%s ", inet_ntoa(clientAddr.sin_addr));  // Add IP to file
-        fprintf(f_handler, "%s ", sub_buff);                        // Add Date and Time
-        fprintf(f_handler, "%s", buff);                             // Add Client's info
+        GetTime(sub_buff);                     // Add Client's info
         printf("Received from Client: %s\n", buff);        
     }
-    fprintf(f_handler, "%s", "===========\n");  // Separate sessions' logs
-    fclose(f_handler);
 
 
     // Closing connection
