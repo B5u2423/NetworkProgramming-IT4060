@@ -1,0 +1,59 @@
+/** @function: VerifyAddress()
+* @brief: Checking IPv4 address
+* @param cmd_address: Command line argument for server IPv4 address
+*
+* @return: 0 if valid
+*          1 if invalid.
+**/
+int VerifyAddress (const char * cmd_address) 
+{
+    char buff[32], sub_buff[8];
+    char * octet_str;
+    
+    strcpy(buff, cmd_address);
+    octet_str = strtok(buff, ".");        // Parse octets
+
+    while (octet_str != NULL) {
+        strcpy(sub_buff, octet_str);
+
+        unsigned int oclen = strlen(octet_str);       // Check octet string length
+        if(oclen > 3) {
+            return 1;
+        }
+        for (unsigned int iDigit = 0; iDigit < oclen; ++iDigit) {
+            int tmp = sub_buff[iDigit] - '0';     // Number only
+            if (tmp < 0 || tmp > 9) {
+                return 1;
+            }
+        }
+
+        octet_str = strtok(NULL, ".");
+    }
+    
+    return 0;
+}
+
+/** @function: VerifyPort()
+* @brief: Checking port
+* @param cmd_port: Command line argument for port
+*
+* @return: Port number if valid.
+*          -1 if invalid       
+**/
+int VerifyPort (const char * cmd_port)
+{
+    char buff[10];
+    strcpy(buff, cmd_port);
+    for(unsigned int iBuff = 0; iBuff < strlen(buff); ++iBuff) {
+        int tmp = buff[iBuff] - '0';
+        if (tmp < 0 || tmp > 9) {       // Number only
+            return -1;
+        }
+    }
+    int port = atoi(cmd_port);
+    if(port < 1 || port > 65535) {      // Port range
+        return -1;
+    }
+
+    return port;
+}

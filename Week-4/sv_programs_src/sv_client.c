@@ -124,7 +124,10 @@ int NameOperation (char * buff)
 */
 int VerifyStuID(char * cmd_id)
 {
-    for(unsigned int iDigit = 0; iDigit < strlen(cmd_id); ++iDigit) {
+    unsigned int id_len = strlen(cmd_id);
+    if (id_len != 8)
+        return -1;
+    for(unsigned int iDigit = 0; iDigit < id_len; ++iDigit) {
         if ( !isdigit(cmd_id[iDigit]) )     // Number only
             return -1; 
     }

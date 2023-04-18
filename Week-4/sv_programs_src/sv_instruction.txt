@@ -2,12 +2,13 @@
 Connection Established!
 Now you can start sending your information...
 --------------------------------------------------
-[FORMAT]: "Name" StuID Date_Of_Birth GPA
+[FORMAT]: "Name" Stu_ID Date_Of_Birth GPA
 
+- Stu_ID: A string number with 8 of length.
 - Date_Of_Birth: Following the format YYYY-MM-DD.
 - GPA: Two digits after decimal point.
 
-[SAMPLE]: "Tran Van A" 1234 1999-02-11 2.50
+[SAMPLE]: "Tran Van A" 12345678 1999-02-11 2.50
 
 Type "quit" or "exit" to disconnect.
 --------------------------------------------------

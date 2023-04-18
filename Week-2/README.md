@@ -11,4 +11,6 @@ Lệnh gửi từ client là chuỗi ký tự có dạng “CMD X Y” trong đ�
 ### VD3: 
 Chuỗi ký tự sau là phản hồi của lệnh PASV trong giao thức FTP, hãy xác định giá trị địa chỉ IP và cổng. <br/>
 
-> ``227 Entering Passive Mode (213,229,112,130,216,4)``
+```
+227 Entering Passive Mode (213,229,112,130,216,4)
+```

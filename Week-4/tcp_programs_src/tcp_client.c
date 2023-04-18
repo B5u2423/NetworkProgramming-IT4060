@@ -117,7 +117,7 @@ int main(int argc, char * argv[])
         exit(1);
     }
 
-    if (rcv_byte < MAX_SIZE)    // Add NULL to end 
+    if (rcv_byte < MAX_SIZE)    // NULL terminate 
         buff[rcv_byte] = 0;
 
     printf("%s\n", buff);

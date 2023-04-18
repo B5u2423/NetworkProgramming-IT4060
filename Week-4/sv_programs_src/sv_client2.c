@@ -14,7 +14,7 @@
 #define PORT 9999
 #define MAX_SIZE 2048
 
-/** @function: VerifyingAddress() 
+/** @function: VerifyAddress() 
 * @brief: Checking IPv4 address
 * @param cmd_address: Input argument for server IPv4 address
 *
@@ -49,7 +49,7 @@ int VerifyAddress (const char * cmd_address)
     return 0;
 }
 
-/** @function: VerifyingPort()
+/** @function: VerifyPort()
 * @brief: Checking port
 * @param cmd_port: Input argument for port
 *
@@ -105,7 +105,10 @@ int VerifyName (char * name)
 */
 int VerifyStuID(char * cmd_id)
 {
-    for(unsigned int iDigit = 0; iDigit < strlen(cmd_id); ++iDigit) {   
+    unsigned int id_len = strlen(cmd_id);
+    if (id_len != 8)
+        return -1;
+    for(unsigned int iDigit = 0; iDigit < id_len; ++iDigit) {   
         if ( !isdigit(cmd_id[iDigit]) )     // Number only
             return -1; 
     }
