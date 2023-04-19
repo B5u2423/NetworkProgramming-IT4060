@@ -12,8 +12,47 @@
 #define PORT 9999
 #define MAX_SIZE 256
 
-int main() 
+/** @function: VerifyPort()
+* @brief: Checking port
+* @param cmd_port: Command line argument for port
+*
+* @return: Port number if valid.
+*          -1 if invalid       
+**/
+int VerifyPort (const char * cmd_port)
 {
+    char buff[10];
+    strcpy(buff, cmd_port);
+    for(unsigned int iBuff = 0; iBuff < strlen(buff); ++iBuff) {
+        int tmp = buff[iBuff] - '0';
+        if (tmp < 0 || tmp > 9) {       // Number only
+            return -1;
+        }
+    }
+    int port = atoi(cmd_port);
+    if(port < 1 || port > 65535) {      // Port range
+        return -1;
+    }
+
+    return port;
+}
+
+int main(int argc, char * argv[]) 
+{
+    // Veriying Command
+    if (argc != 2) {
+        puts("[**ERROR]: Invalid Command.");
+        puts("[USAGE]: ./info_server port");
+        exit(1);
+    }
+
+    // Verifying Port
+    if (VerifyPort(argv[1]) == -1) {
+        puts("[**ERROR]: Invalid Port.");
+        exit(1);
+    }
+    int port = atoi(argv[1]);
+
     // Initializing socket
     int sock_fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (sock_fd == -1) {
@@ -25,7 +64,7 @@ int main()
     struct sockaddr_in addr;
     addr.sin_family = AF_INET;
     addr.sin_addr.s_addr = htonl(INADDR_ANY); // inet_addr(SRV_ADDR); 
-    addr.sin_port = htons(PORT);
+    addr.sin_port = htons(port);
 
     // Binding socket
     if (bind(sock_fd, (struct sockaddr *)&addr, sizeof(addr))) {
@@ -38,7 +77,7 @@ int main()
         perror("[**ERROR] - listen()");
         exit(1);
     }
-    printf("Listening on port %d...\n", PORT);
+    printf("Listening on port %d...\n", port);
 
     // Accepting connection
     // Without Client IP
@@ -46,9 +85,8 @@ int main()
     if (acpt_client == -1) {
         perror("[**ERROR] - accept()");
         exit(1);
-    }
-    
-    puts("New Client Connected.\n");
+    }    
+    puts("New Client Connected.");
 
     // Receiving from Client
     char buff[MAX_SIZE];
@@ -57,16 +95,18 @@ int main()
 
     while(1) {
         char sub_buff[20];
-        memset(sub_buff, 0, sizeof(sub_buff));      // Clear sub_buff
+        memset(sub_buff, 0, sizeof(sub_buff));      // Clearing sub_buff
 
         int rcv_byte = recv(acpt_client, buff, MAX_SIZE, 0);
         if (rcv_byte <= 0) {
             printf("Connection closed.\n");
             break;
         }
-        if (rcv_byte < MAX_SIZE) 
-            buff[rcv_byte] = 0;
-
+        if (rcv_byte < MAX_SIZE) {
+            buff[rcv_byte] = 0;     // NULL Terminated
+        }
+            
+        // Received Package Parsing
         char * tmp_string  = strtok(buff, " ");
         printf("Device Name: %s\n", tmp_string);
 
@@ -78,10 +118,12 @@ int main()
         }
 
         while ((tmp_string = strtok(NULL, " ")) != NULL) {
-            memset(sub_buff, 0, sizeof(sub_buff));
+            memset(sub_buff, 0, sizeof(sub_buff));      // Clearing sub_buff
             strncpy(sub_buff, tmp_string, strlen(tmp_string));
             printf("\t+) %c - %s\n", toupper(sub_buff[0]), sub_buff + 1);
+            //                       Disk Label            Disk Size
         }
+        puts("----------------------");
     }
 
     // Closing connection

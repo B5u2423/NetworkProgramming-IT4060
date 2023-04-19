@@ -10,6 +10,7 @@
 
 #define PORT 9999
 #define MAX_SIZE 2048
+#define SUB_STRING "0123456789"
 
 int main()
 {
@@ -42,16 +43,11 @@ int main()
     // Accepting connection
     // Without Client IP
     int acpt_client = accept(sock_fd, NULL, NULL);
-
-    // With Client IP
-    struct sockaddr_in clientAddr;  // Save client Address
-    socklen_t c_addrLen = sizeof(clientAddr);   
-    int acpt_client = accept(sock_fd, (struct sockaddr *)&clientAddr, &c_addrLen);  
-
     puts("New client connected.");
 
     // Receiving from Client
     char buff[MAX_SIZE];
+    int occurrence = 0;
     while(1) {
         int rcv_byte = recv(acpt_client, buff, MAX_SIZE, 0);
         if (rcv_byte <= 0) {
@@ -60,8 +56,21 @@ int main()
         }
         if (rcv_byte < MAX_SIZE) 
             buff[rcv_byte] = 0;
-    }
 
+        // Parsing and Couting
+        puts("-----------------------------------------------------");
+        puts(buff);
+        puts("-----------------------------------------------------");
+        char * tmp = strstr(buff, SUB_STRING);
+        occurrence++;
+            // strlen(SUB_STRING) - 1 = Next Index
+        while ((tmp = strstr(tmp + strlen(SUB_STRING) - 1, SUB_STRING))) {
+            occurrence++;
+        }
+        printf("- Substring: %s\n", SUB_STRING);
+        printf("- Substring occurrences: %d\n", occurrence);
+    }
+    
     // Closing connection
     close(acpt_client);
     close(sock_fd);

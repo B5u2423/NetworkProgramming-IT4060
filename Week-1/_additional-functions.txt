@@ -33,6 +33,16 @@ int VerifyAddress (const char * cmd_address)
     return 0;
 }
 
+----------------------------------
+
+// Verifying Address
+if (VerifyAddress(argv[1])) {
+    puts("[**ERROR]: Invalid IPv4 Address");
+    exit(1);
+}
+
+----------------------------------------------------------------------------------------------------------------
+
 /** @function: VerifyPort()
 * @brief: Checking port
 * @param cmd_port: Command line argument for port
@@ -57,3 +67,19 @@ int VerifyPort (const char * cmd_port)
 
     return port;
 }
+
+----------------------------------
+
+// Verifying Port
+if (VerifyPort(argv[2]) == -1) {
+    puts("[**ERROR]: Invalid Port.");
+    exit(1);
+}
+int port = atoi(argv[2]);
+
+----------------------------------------------------------------------------------------------------------------
+
+// NULL Terminated
+dvc_name[strcspn(dvc_name, "\n")] = 0;  
+
+----------------------------------------------------------------------------------------------------------------

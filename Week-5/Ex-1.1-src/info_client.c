@@ -11,7 +11,7 @@
 #define SRV_ADDR "127.0.0.1"
 #define PORT 9999
 #define MAX_SIZE 256
-#define MAX_DRIVE 10
+#define MAX_DISK_CNT 10
 
 /** @function: VerifyAddress()
 * @brief: Checking IPv4 address
@@ -73,30 +73,46 @@ int VerifyPort (const char * cmd_port)
     return port;
 }
 
+/** @function: VerifyDeviceName()
+* @brief: Checking DEVICE_NAME
+* @param cmd_port: Input argument for DEVICE_NAME
+*
+* @return:  0 if DEVICE_NAME is valid: Only contains letters, number and '-'
+*          -1 if invalid.       
+**/
 int VerifyDeviceName (char * device_name)
 {
     for (unsigned int iChar = 0; iChar < strlen(device_name); ++iChar) {
-        if (device_name[iChar] == '-') 
+        if (device_name[iChar] == '-')      // Skip if '-'
             continue;
         if ( !isalpha(device_name[iChar]) && !isdigit(device_name[iChar]))
-            return 1;
+            return -1;
     }
     
     return 0;
 }
 
+/** @function: VerifyDriveSize()
+* @brief: Checking DRIVE_SIZE
+* @param cmd_port: Input argument for DRIVE_SIZE
+*
+* @return: 0 if DRIVE_SIZE is valid: Capacity (Numbers only) and Storage Measurement(GB or TB)
+*          -1 if invalid       
+**/
 int VerifyDriveSize (char * drive_size)
 {
-    char check[3] = "GT";
+    char check[3] = "GT";   // G - GB ; T - TB
     char * ptr = strpbrk(drive_size, check);
     char buff[8];
 
+    // Capacity Check
     strncpy(buff, drive_size, ptr - drive_size);
     for (unsigned int iChar = 0; iChar < strlen(buff); ++iChar) {
-        if ( !isdigit(buff[iChar]) )
+        if ( !isdigit(buff[iChar]) )        // Number Only
             return -1;
     }
 
+    // Storage Measurement Check
     memset(buff, 0, sizeof(buff));
     strncpy(buff, ptr, 2);
     for (unsigned int iChar = 0; iChar < strlen(buff); ++iChar) {
@@ -109,18 +125,39 @@ int VerifyDriveSize (char * drive_size)
     return 0;
 }
 
-int main()
+int main(int argc, char * argv[])
 {
     char buff[MAX_SIZE];
+
+    // Verifying Command
+    if (argc != 3) {
+        puts("[**ERROR]: Invalid Command.");
+        puts("[USAGE]: ./info_client server_IPv4 port");
+        exit(1);
+    }
+
+    // Verifying Address
+    if (VerifyAddress(argv[1])) {
+        puts("[**ERROR]: Invalid IPv4 Address");
+        exit(1);
+    }
+
+    // Verifying Port
+    if (VerifyPort(argv[2]) == -1) {
+        puts("[**ERROR]: Invalid Port.");
+        exit(1);
+    }
+    int port = atoi(argv[2]);
+
     // Initializing socket
     int sock_fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
     // Updating address info
     struct sockaddr_in addr;
     addr.sin_family = AF_INET;
-    addr.sin_addr.s_addr = inet_addr(SRV_ADDR);
+    addr.sin_addr.s_addr = inet_addr(argv[1]);
     // inet_aton(argv[1], &addr.sin_addr);
-    addr.sin_port = htons(PORT);
+    addr.sin_port = htons(port);
 
     // Connecting to the server
     int c_state = connect(sock_fd, (struct sockaddr *)&addr, sizeof(addr));
@@ -129,22 +166,26 @@ int main()
         exit(1);
     }
 
+    puts("------------------------------------------------");
     puts("Start typing your device's spec");
-    puts("-------------------------------");
-    // Take Input from User
+    puts("Program can only send maximum of 10 disks info");
+    puts("------------------------------------------------");
+
+    // Taking Input from User
     char dvc_name[60], disk_size[12];
     short disk_cnt;
     unsigned short ptr_pos = 0;
 
+    // Geting Device Name
     while (1) {
         printf("Device's Name: ");
         fgets(dvc_name, sizeof(dvc_name), stdin);
-        dvc_name[strlen(dvc_name) - 1] = 0;
+        dvc_name[strcspn(dvc_name, "\n")] = 0;  // NULL Terminated
         if (VerifyDeviceName(dvc_name)) {
            printf("[**ERROR]: Invalid Device Name. You cannot use blank spaces and special characters.\n");
            continue;
         }
-        strcpy(buff, dvc_name);
+        strcpy(buff, dvc_name);     // Copying to buffer
         strcat(buff, " ");
         ptr_pos = strlen(buff);
         break;
@@ -153,9 +194,9 @@ int main()
     while (1) {
         printf("Number of Drives: ");
         scanf("%hd", &disk_cnt);
-        getchar();
+        getchar();      // Removing trailing '\n'
 
-        if (disk_cnt > 10 || disk_cnt < 0) {
+        if (disk_cnt > MAX_DISK_CNT || disk_cnt < 0) {
             printf("[**ERROR]: Invalid Number of Drives.\n");
             continue;
         }
@@ -164,27 +205,29 @@ int main()
 
         int input_cnt = 0;
         while (input_cnt < disk_cnt) {
-            char disk_label;
-            ptr_pos = strlen(buff);
+            char disk_label = 'a';
+            ptr_pos = strlen(buff);     // Updating start index for next string in buffer
 
+            printf("Drive #%d\n", input_cnt + 1);
+            puts("---");
             printf("- Disk Label: ");
             scanf("%c", &disk_label);
-            getchar();
+            getchar();      // Removing trailing '\n'
 
             if ( !isalpha(disk_label) ) {
                 printf("[**ERROR]: Invalid Disk Label.\n");
-                continue;
+                exit(1);
             }
             sprintf(buff + ptr_pos, "%c", disk_label);
-            ptr_pos = strlen(buff);
+            ptr_pos = strlen(buff);     // Updating start index for next string in buffer
 
             while (1) {
                 printf("- Disk Size: ");
                 fgets(disk_size, sizeof(disk_size), stdin);
-                disk_size[strlen(disk_size) - 1] = 0;
+                disk_size[strcspn(disk_size, "\n")] = 0;   // NULL Terminated
                 if (VerifyDriveSize(disk_size)) {
                     printf("[*ERROR]: Invalid Disk Size Input.\n");
-                    continue;
+                    exit(1);
                 }
 
                 strcat(buff, disk_size);

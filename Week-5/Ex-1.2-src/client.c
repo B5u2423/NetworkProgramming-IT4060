@@ -31,14 +31,14 @@ int main()
         exit(1);
     }
 
-    // Receiving welcome text from server
-    int rcv_byte = recv(sock_fd, buff, MAX_SIZE, 0);
-    if (rcv_byte <= 0) {
-        printf("Connection closed.\n");
-        exit(1);
+    char buff[MAX_SIZE];
+    FILE * f_handler;
+    f_handler = fopen("data.txt", "r");
+    while ( !feof(f_handler) ) {
+        fscanf(f_handler, "%s", buff);      // Write from file to buffer
     }
-    if (rcv_byte < MAX_SIZE)    // NULL terminate 
-        buff[rcv_byte] = 0;
+    puts(buff);
+    send(sock_fd, buff, strlen(buff), 0);
 
     // Closing connection
     close(sock_fd);
