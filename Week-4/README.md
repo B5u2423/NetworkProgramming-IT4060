@@ -32,9 +32,43 @@ Viết chương trình sv_client, cho phép người dùng nhập dữ liệu l�
 Viết chương trình sv_server, nhận dữ liệu từ sv_client, in ra màn hình và đồng thời ghi vào file sv_log. Ngoài dữ liệu được gửi từ client cần phải lưu
 lại địa chỉ và thời gian client đã gửi. Tham số cổng và tên file log được nhập từ tham số dòng lệnh.
 
-## Giải Thích Cấu Trúc Directory
+## Giải Thích Chương Trình
 
 Directory bao gồm 2 thư mục *tcp_programs_src* và *sv_programs_src* lần lượt lưu mã nguồn của bài tập 1 - 2 và bài tập 3 - 4. Các file mã nguồn có thể được biên dịch và chạy thành công.
+
+### TCP_CLIENT và TCP_SERVER
+
+Thư mục *tcp_programs* chứa hai file client và server. Sau khi khởi động, server sẽ lắng nghe ở cổng được nhập tham số từ dòng lệnh, khi client kết nối tới sẽ gửi một file lời chào (được chỉ định ở tham số dòng lệnh) và bắt đầu nhận dữ liệu bên client rồi ghi vào một file log (được chỉ định ở tham số dòng lệnh).
+
+Cả hai chương trình đều có chức năng xử lý tham số cổng kết nói, địa chỉ của server để xem liệu các tham số có hợp lệ, nếu không hợp lệ thì chương trình sẽ bị hủy và đưa ra tin nhắn báo lỗi cho người dùng.
+
+<figure>
+  <img src="../_img/W4-tcp-server-demo1.png" alt="Server Listening"/>
+  <figcaption>Server đang đợi kết nối ở cổng 9999.</figcaption>
+</figure>
+
+<figure>
+  <img src="../_img/W4-tcp-client-demo1.png" alt="Client Connected"/>
+  <figcaption>Client đã kết nối thành công vào địa chỉ server tại cổng 9999 và đang đợi nhập liệu từ người dùng.</figcaption>
+</figure>
+
+<figure>
+  <img src="../_img/W4-tcp-client-demo2.png" alt="Client sent"/>
+  <figcaption>User đã nhập liệu xong và yêu cầu hủy kết nối.</figcaption>
+</figure>
+
+<figure>
+  <img src="../_img/W4-tcp-server-demo2.png" alt="Server completed"/>
+  <figcaption>Kết quả bên server.</figcaption>
+</figure>
+
+<figure>
+  <img src="../_img/W4-tcp-log-result.png" alt="Log file"/>
+  <figcaption>Kết quả ghi trong file <i>tcp_msg.log</i>. Có thể thấy dữ liệu mới được ghi vào sau khi nhận từ Client.</figcaption>
+</figure>
+
+
+### SV_CLIENT và SV_SERVER
 
 Trong thư mục *sv_client* có hai phiên bản client khác nhau: sv_client.c và sv_client2.c. Hai client này khác nhau ở khâu nhập liệu, xử lý và đóng gói dữ liệu trước khi gửi qua bên server.
 

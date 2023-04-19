@@ -1,3 +1,10 @@
+<figure>
+  <img src="" alt=""/>
+  <figcaption> </figcaption>
+</figure>
+
+----------------------------------------------------------------------------------------------------------------
+
 /** @function: VerifyAddress()
 * @brief: Checking IPv4 address
 * @param cmd_address: Command line argument for server IPv4 address
@@ -36,7 +43,7 @@ int VerifyAddress (const char * cmd_address)
 ----------------------------------
 
 // Verifying Address
-if (VerifyAddress(argv[1])) {
+if (VerifyAddress(argv[])) {
     puts("[**ERROR]: Invalid IPv4 Address");
     exit(1);
 }
@@ -71,15 +78,15 @@ int VerifyPort (const char * cmd_port)
 ----------------------------------
 
 // Verifying Port
-if (VerifyPort(argv[2]) == -1) {
+if (VerifyPort(argv[]) == -1) {
     puts("[**ERROR]: Invalid Port.");
     exit(1);
 }
-int port = atoi(argv[2]);
+int port = atoi(argv[]);
 
 ----------------------------------------------------------------------------------------------------------------
 
-// NULL Terminated
+// NULL Terminated from fgets()
 dvc_name[strcspn(dvc_name, "\n")] = 0;  
 
 ----------------------------------------------------------------------------------------------------------------

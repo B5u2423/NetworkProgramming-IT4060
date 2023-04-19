@@ -8,6 +8,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+----------------------------------------TCP----------------------------------------
+
 #define SRV_ADDR "127.0.0.1"
 #define PORT 9999
 #define MAX_SIZE 2048
@@ -44,3 +46,28 @@ int main()
     close(sock_fd);
 }
 
+----------------------------------------UDP----------------------------------------
+
+#define SENDER_ADDR "127.0.0.1"
+#define PORT 9999
+#define MAX_SIZE 256
+
+int main()
+{
+    // Initializing socket
+    int sock_fd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+
+    // Updating address info
+    struct sockaddr_in addr;
+    addr.sin_family = AF_INET;
+    addr.sin_addr.s_addr = inet_addr(SENDER_ADDR);
+    addr.sin_port = htons(9999);
+
+    // Sending datagram
+    char buff[MAX_SIZE];
+    while (1) {
+        printf("Enter message: ");
+        fgets(buff, MAX_SIZE, stdin);
+        sendto(sock_fd, buff, strlen(buff), 0, (struct sockaddr *)&addr, sizeof(addr));
+    }
+}

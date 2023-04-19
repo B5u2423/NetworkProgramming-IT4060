@@ -11,6 +11,8 @@
 #define PORT 9999
 #define MAX_SIZE 2048
 
+----------------------------------------TCP----------------------------------------
+
 int main()
 {
     // Initializing socket
@@ -67,4 +69,39 @@ int main()
     close(sock_fd);
 }
 
+----------------------------------------UDP----------------------------------------
 
+#define PORT 9999
+#define MAX_SIZE 256
+
+int main()
+{
+    // Initializing socket
+    int sock_fd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+
+    // Updating address info
+    struct sockaddr_in addr;
+    addr.sin_family = AF_INET;
+    addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    addr.sin_port = htons(PORT);
+
+    // Binding socket
+    if (bind(sock_fd, (struct sockaddr *)&addr, sizeof(addr))) {
+        perror("[**ERROR] - bind()");
+        exit(1);
+    }
+    printf("Listening on port %d", PORT);
+    
+    // Receiving datagram
+    char buff[MAX_SIZE];
+    while (1) {
+        int recv_byte = recvfrom(sock_fd, buff, sizeof(buff), 0, NULL, NULL);
+        if (recv_byte == -1) {
+            puts("recvfrom() failed.");
+            break;
+        } else {
+            buff[recv_byte] = 0;
+            printf("%d - %s\n", recv_byte, buff);
+        }
+    }
+}

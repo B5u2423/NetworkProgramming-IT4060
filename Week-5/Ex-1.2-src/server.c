@@ -57,7 +57,7 @@ int main()
         if (rcv_byte < MAX_SIZE) 
             buff[rcv_byte] = 0;
 
-        // Parsing and Couting
+        // Parsing and Counting
         puts("-----------------------------------------------------");
         puts(buff);
         puts("-----------------------------------------------------");
