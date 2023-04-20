@@ -9,7 +9,7 @@
 
 #define RECEIVER_ADDR "127.0.0.1"
 #define PORT 9999
-#define MAX_SIZE 256
+#define MAX_SIZE 65535
 
 /** @function: VerifyAddress()
 * @brief: Checking IPv4 address

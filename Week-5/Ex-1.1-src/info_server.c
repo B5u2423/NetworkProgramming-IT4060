@@ -112,16 +112,16 @@ int main(int argc, char * argv[])
 
         tmp_string = strtok(NULL, " ");
         if (atoi(tmp_string) == 1) {
-            printf("Client has %s disk.\n", tmp_string);
+            printf("The device has %s disk.\n", tmp_string);
         } else {
-            printf("Client has %s disks.\n", tmp_string);
+            printf("The device has %s disks.\n", tmp_string);
         }
 
         while ((tmp_string = strtok(NULL, " ")) != NULL) {
             memset(sub_buff, 0, sizeof(sub_buff));      // Clearing sub_buff
             strncpy(sub_buff, tmp_string, strlen(tmp_string));
-            printf("\t+) %c - %s\n", toupper(sub_buff[0]), sub_buff + 1);
-            //                       Disk Label            Disk Size
+            printf("\t+) %c - %s\n", sub_buff[0], sub_buff + 1);
+            //                       Disk Label   Disk Size
         }
         puts("----------------------");
     }

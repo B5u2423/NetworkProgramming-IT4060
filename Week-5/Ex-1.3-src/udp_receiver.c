@@ -8,7 +8,8 @@
 #include <unistd.h>
 
 #define PORT 9999
-#define MAX_SIZE 256
+#define MAX_SIZE 65535
+#define SAVE_FILE_PATH "receiver_datagram.txt" 
 
 /** @function: VerifyPort()
 * @brief: Checking port
@@ -78,7 +79,7 @@ int main(int argc, char * argv[])
             buff[recv_byte] = 0;
 
             FILE * f_handler;
-            f_handler = fopen("receiver_datagram.txt", "w");
+            f_handler = fopen(SAVE_FILE_PATH, "w");
             puts("--------------------------------");
             puts("Saved to receiver_datagram.txt:");
             puts("--------------------------------");

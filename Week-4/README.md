@@ -32,7 +32,7 @@ Viết chương trình sv_client, cho phép người dùng nhập dữ liệu l�
 Viết chương trình sv_server, nhận dữ liệu từ sv_client, in ra màn hình và đồng thời ghi vào file sv_log. Ngoài dữ liệu được gửi từ client cần phải lưu
 lại địa chỉ và thời gian client đã gửi. Tham số cổng và tên file log được nhập từ tham số dòng lệnh.
 
-## Giải Thích Chương Trình
+## Giải Thích Kết Quả
 
 Directory bao gồm 2 thư mục *tcp_programs_src* và *sv_programs_src* lần lượt lưu mã nguồn của bài tập 1 - 2 và bài tập 3 - 4. Các file mã nguồn có thể được biên dịch và chạy thành công.
 
@@ -40,7 +40,7 @@ Directory bao gồm 2 thư mục *tcp_programs_src* và *sv_programs_src* lần 
 
 Thư mục *tcp_programs* chứa hai file client và server. Sau khi khởi động, server sẽ lắng nghe ở cổng được nhập tham số từ dòng lệnh, khi client kết nối tới sẽ gửi một file lời chào (được chỉ định ở tham số dòng lệnh) và bắt đầu nhận dữ liệu bên client rồi ghi vào một file log (được chỉ định ở tham số dòng lệnh).
 
-Cả hai chương trình đều có chức năng xử lý tham số cổng kết nói, địa chỉ của server để xem liệu các tham số có hợp lệ, nếu không hợp lệ thì chương trình sẽ bị hủy và đưa ra tin nhắn báo lỗi cho người dùng.
+Cả hai chương trình đều có chức năng xử lý tham số cổng kết nối, địa chỉ của server để xem liệu các tham số có hợp lệ, nếu không hợp lệ thì chương trình sẽ bị hủy và đưa ra tin nhắn báo lỗi cho người dùng.
 
 <figure>
   <img src="../_img/W4-tcp-server-demo1.png" alt="Server Listening"/>
@@ -79,14 +79,14 @@ Trong thư mục *sv_client* có hai phiên bản client khác nhau: sv_client.c
   <figcaption>Minh họa sv_client.</figcaption>
 </figure>
 
-* **sv_client2.c**: Sau khi kết nối với server thành công sẽ thực hiện in chỉ dẫn từ file *sv_instruction.txt* ra ngoài màn hình. Người dùng sẽ nhập lần lượt các thông tin theo hướng dẫn trên màn hình, dữ liệu sẽ dược xử lý ngay sau khi nhập và người dùng BẮT BUỘC nhập đúng cấu trúc trước khi chuyển sang yêu cầu nhập thông tin tiếp theo để đóng gói và gửi qua server.
+* **sv_client2.c**: Sau khi kết nối với client, server sẽ thực hiện in chỉ dẫn từ file *sv_instruction2.txt* ra ngoài màn hình. Người dùng sẽ nhập lần lượt các thông tin theo hướng dẫn trên màn hình, dữ liệu sẽ dược xử lý ngay sau khi nhập và người dùng BẮT BUỘC nhập đúng cấu trúc theo hướng dẫn trước khi nhập thông tin tiếp theo để đóng gói và gửi qua server.
 
 <figure>
   <img src="../_img/W4-client2-input.png" alt="sv_client2 demo"/>
   <figcaption>Minh họa sv_client2.</figcaption>
 </figure>
 
-Hai sâu kí tự được đóng gói để chuyển tới server.
+Hai xâu kí tự được đóng gói để chuyển tới server.
 
 <figure>
   <img src="../_img/W4-result-packages.png" alt="result comparison"/>

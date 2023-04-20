@@ -83,7 +83,7 @@ int VerifyPort (const char * cmd_port)
 int VerifyDeviceName (char * device_name)
 {
     for (unsigned int iChar = 0; iChar < strlen(device_name); ++iChar) {
-        if (device_name[iChar] == '-')      // Skip if '-'
+        if (device_name[iChar] == '-' || device_name[iChar] == '_')      // Skip if '-' or '_'
             continue;
         if ( !isalpha(device_name[iChar]) && !isdigit(device_name[iChar]))
             return -1;
@@ -93,20 +93,20 @@ int VerifyDeviceName (char * device_name)
 }
 
 /** @function: VerifyDriveSize()
-* @brief: Checking DRIVE_SIZE
-* @param cmd_port: Input argument for DRIVE_SIZE
+* @brief: Checking DISK_SIZE
+* @param cmd_port: Input argument for DISK_SIZE
 *
-* @return: 0 if DRIVE_SIZE is valid: Capacity (Numbers only) and Storage Measurement(GB or TB)
+* @return: 0 if DISK_SIZE is valid: Capacity (Numbers only) and Storage Measurement(GB or TB)
 *          -1 if invalid       
 **/
-int VerifyDriveSize (char * drive_size)
+int VerifyDriveSize (char * disk_size)
 {
-    char check[3] = "GT";   // G - GB ; T - TB
-    char * ptr = strpbrk(drive_size, check);
+    char check[5] = "GTgt";   // Gg - GB ; Tt - TB
+    char * ptr = strpbrk(disk_size, check);
     char buff[8];
 
     // Capacity Check
-    strncpy(buff, drive_size, ptr - drive_size);
+    strncpy(buff, disk_size, ptr - disk_size);
     for (unsigned int iChar = 0; iChar < strlen(buff); ++iChar) {
         if ( !isdigit(buff[iChar]) )        // Number Only
             return -1;
@@ -115,11 +115,12 @@ int VerifyDriveSize (char * drive_size)
     // Storage Measurement Check
     memset(buff, 0, sizeof(buff));
     strncpy(buff, ptr, 2);
-    for (unsigned int iChar = 0; iChar < strlen(buff); ++iChar) {
-        if ( buff[iChar] == 'B' || buff[iChar] == 'T' || buff[iChar] == 'G')
+    for (unsigned int iChar = 0; iChar < 2; ++iChar) {
+        if ( toupper(buff[iChar]) == 'B' || toupper(buff[iChar]) == 'T' || toupper(buff[iChar]) == 'G') {
             continue;
-        else   
+        } else {
             return -1;
+        } 
     }
 
     return 0;
@@ -218,7 +219,7 @@ int main(int argc, char * argv[])
                 printf("[**ERROR]: Invalid Disk Label.\n");
                 exit(1);
             }
-            sprintf(buff + ptr_pos, "%c", disk_label);
+            sprintf(buff + ptr_pos, "%c", toupper(disk_label));
             ptr_pos = strlen(buff);     // Updating start index for next string in buffer
 
             while (1) {
@@ -228,6 +229,10 @@ int main(int argc, char * argv[])
                 if (VerifyDriveSize(disk_size)) {
                     printf("[*ERROR]: Invalid Disk Size Input.\n");
                     exit(1);
+                }
+                int tmp = strlen(disk_size) - 2;
+                for (unsigned int iChar = tmp; iChar < strlen(disk_size); iChar++) {
+                    disk_size[iChar] = toupper(disk_size[iChar]);
                 }
 
                 strcat(buff, disk_size);

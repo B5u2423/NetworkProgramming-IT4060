@@ -1,6 +1,6 @@
 <figure>
-  <img src="" alt=""/>
-  <figcaption> </figcaption>
+  <img src="../_img/" alt=""/>
+  <figcaption></figcaption>
 </figure>
 
 ----------------------------------------------------------------------------------------------------------------

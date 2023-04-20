@@ -63,8 +63,8 @@ int main()
         puts("-----------------------------------------------------");
         char * tmp = strstr(buff, SUB_STRING);
         occurrence++;
-            // strlen(SUB_STRING) - 1 = Next Index
-        while ((tmp = strstr(tmp + strlen(SUB_STRING) - 1, SUB_STRING))) {
+        // Next test string starts at `tmp + 1` to avoid overlapping
+        while ((tmp = strstr(tmp + 1, SUB_STRING))) {
             occurrence++;
         }
         printf("- Substring: %s\n", SUB_STRING);
