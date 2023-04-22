@@ -43,7 +43,8 @@ int main()
     // Accepting connection
     // Without Client IP
     int acpt_client = accept(sock_fd, NULL, NULL);
-    puts("New client connected.");
+    puts("New client connected."); 
+    puts("Data received from client:");
 
     // Receiving from Client
     char buff[MAX_SIZE];
@@ -58,9 +59,16 @@ int main()
             buff[rcv_byte] = 0;
 
         // Parsing and Counting
-        puts("-----------------------------------------------------");
-        puts(buff);
-        puts("-----------------------------------------------------");
+        puts("--------------------------------------------------");
+        // Word wrap for Output
+        for (unsigned int iChar = 0; iChar < strlen(buff); ++iChar) {
+            putchar(buff[iChar]);
+            if ((iChar + 1) % 50 == 0) {    // 50 characters per line
+                putchar('\n');
+            }
+        }
+        putchar('\n');
+        puts("--------------------------------------------------");
         char * tmp = strstr(buff, SUB_STRING);
         occurrence++;
         // Next test string starts at `tmp + 1` to avoid overlapping

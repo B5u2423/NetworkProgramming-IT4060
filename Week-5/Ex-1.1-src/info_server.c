@@ -47,11 +47,11 @@ int main(int argc, char * argv[])
     }
 
     // Verifying Port
-    if (VerifyPort(argv[1]) == -1) {
+    int port = VerifyPort(argv[1]);
+    if (port == -1) {
         puts("[**ERROR]: Invalid Port.");
         exit(1);
     }
-    int port = atoi(argv[1]);
 
     // Initializing socket
     int sock_fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);

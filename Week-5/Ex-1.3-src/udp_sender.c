@@ -87,11 +87,11 @@ int main(int argc, char * argv[])
     }
 
     // Verifying Port
-    if (VerifyPort(argv[2]) == -1) {
+    int port = VerifyPort(argv[2]);
+    if (port == -1) {
         puts("[**ERROR]: Invalid Port.");
         exit(1);
     }
-    int port = atoi(argv[2]);
 
     // Initializing socket
     int sock_fd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
@@ -110,8 +110,16 @@ int main(int argc, char * argv[])
         puts("[**ERROR]: File does not exist");
         exit(1);
     }
+    puts("Sending Datagram");
 
-    fread(buff, MAX_SIZE, 1, f_handler);
+    strncpy(buff, argv[3], strlen(argv[3]));
+    strcat(buff, " ");
+    int str_ptr = strlen(buff);
+
+    fread(buff + str_ptr, MAX_SIZE, 1, f_handler);
+    fclose(f_handler);
+
+    puts(buff);
     sendto(sock_fd, buff, strlen(buff), 0, (struct sockaddr *)&addr, sizeof(addr));
     
 }

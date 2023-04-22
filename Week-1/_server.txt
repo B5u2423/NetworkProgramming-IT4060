@@ -22,6 +22,11 @@ int main()
         exit(1);
     }
 
+    /* Remove bind() ERROR "Address already in use"
+    Permit the reuse of local address */
+    int optval = 1;
+    setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (const void *)&optval , sizeof(int));
+
     // Updating address info
     struct sockaddr_in addr;
     addr.sin_family = AF_INET;
@@ -72,12 +77,17 @@ int main()
 ----------------------------------------UDP----------------------------------------
 
 #define PORT 9999
-#define MAX_SIZE 256
+#define MAX_SIZE 2048
 
 int main()
 {
     // Initializing socket
     int sock_fd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+
+    /* Remove bind() ERROR "Address already in use"
+    Permit the reuse of local address */
+    int optval = 1;
+    setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (const void *)&optval , sizeof(int));
 
     // Updating address info
     struct sockaddr_in addr;
@@ -94,6 +104,7 @@ int main()
     
     // Receiving datagram
     char buff[MAX_SIZE];
+    puts("Receiving:");
     while (1) {
         int recv_byte = recvfrom(sock_fd, buff, sizeof(buff), 0, NULL, NULL);
         if (recv_byte == -1) {

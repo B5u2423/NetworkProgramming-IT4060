@@ -1,3 +1,4 @@
+// Images for READMEs
 <figure>
   <img src="../_img/" alt=""/>
   <figcaption></figcaption>
@@ -78,15 +79,38 @@ int VerifyPort (const char * cmd_port)
 ----------------------------------
 
 // Verifying Port
-if (VerifyPort(argv[]) == -1) {
+int port = VerifyPort(argv[]);
+if (port == -1) {
     puts("[**ERROR]: Invalid Port.");
     exit(1);
 }
-int port = atoi(argv[]);
+
+----------------------------------------------------------------------------------------------------------------
+
+// Verifying Command
+if (argc != 2) {
+    puts("[**ERROR]: Invalid Command");
+    puts("[USAGE]: ./udp_receiver port");
+    exit(1);
+}
+
 
 ----------------------------------------------------------------------------------------------------------------
 
 // NULL Terminated from fgets()
 dvc_name[strcspn(dvc_name, "\n")] = 0;  
+
+----------------------------------------------------------------------------------------------------------------
+
+/** @function: ReturnError()
+* @brief: Terminate and Return error message.
+* @param msg: Specified string for error.
+*
+* @return: Print error and Exit code -1   
+**/
+void ReturnError (char * msg) {
+    perror(msg);
+    exit(1);
+}
 
 ----------------------------------------------------------------------------------------------------------------

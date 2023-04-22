@@ -18,6 +18,15 @@ int main()
 {
     // Initializing socket
     int sock_fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if (sock_fd == -1) {
+        perror("[**ERROR] - socket()");
+        exit(1);
+    }
+
+    /* Remove bind() ERROR "Address already in use"
+    Permit the reuse of local address */
+    int optval = 1;
+    setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (const void *)&optval , sizeof(int));
 
     // Updating address info
     struct sockaddr_in addr;
@@ -50,12 +59,21 @@ int main()
 
 #define SENDER_ADDR "127.0.0.1"
 #define PORT 9999
-#define MAX_SIZE 256
+#define MAX_SIZE 2048
 
 int main()
 {
     // Initializing socket
     int sock_fd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+    if (sock_fd == -1) {
+        perror("[**ERROR] - socket()");
+        exit(1);
+    }
+
+    /* Remove bind() ERROR "Address already in use"
+    Permit the reuse of local address */
+    int optval = 1;
+    setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (const void *)&optval , sizeof(int));
 
     // Updating address info
     struct sockaddr_in addr;

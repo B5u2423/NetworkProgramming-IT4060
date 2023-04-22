@@ -77,7 +77,7 @@ Theo ví dụ để bài đã cho, cần phải lấy được chuỗi xâu con 
 
 ### Bài tập 01.03
 
-Chương trình *udp_receiver* sẽ được nhập tham số cổng chờ từ dòng lệnh, lắng nghe kết nối từ cổng được chỉ định để nhận dữ liệu. Nội dung nhận được sẽ được lưu vào file **receiver_datagram.txt**, địa chỉ được hard-code ở trong chương trình. 
+Chương trình *udp_receiver* sẽ được nhập tham số cổng chờ từ dòng lệnh, lắng nghe kết nối từ cổng được chỉ định để nhận dữ liệu. Nội dung nhận được sẽ được lưu vào file **receiver_datagram.txt**, đường dẫn tới file được hard-code ở trong chương trình. 
 
 Chương trình *udp_sender* sẽ được nhập địa chỉ kết nối tới, tham số cổng cần kết nối tới và chỉ định file cần gửi đi qua dòng lệnh. 
 
@@ -93,7 +93,7 @@ Chương trình *udp_sender* sẽ được nhập địa chỉ kết nối tới
 
 <figure>
   <img src="../_img/W5-e13-received.png" alt="Server Recevied"/>
-  <figcaption>Kết quả nhận được bên server, nội dung nhận được in ra màn hình và lưu vào file.</figcaption>
+  <figcaption>Kết quả nhận được bên server, tên file và nội dung nhận được in ra màn hình rồi lưu vào file <b>receiver_datagram.txt</b>.</figcaption>
 </figure>
 
 <figure>
@@ -107,3 +107,23 @@ Chương trình *udp_sender* sẽ được nhập địa chỉ kết nối tới
 </figure>
 
 ### Bài tập 01.04
+
+*udp_sender2* yêu cầu người dùng nhập địa chỉ IPv4 và cổng kết nối của server UDP cần gửi file đến kèm theo file muốn chuyển.
+
+*udp_receiver2* sẽ được nhập cổng chờ từ tham số dòng lệnh và sẽ lắng nghe thông tin từ cổng chỉ định. *udp_receiver2* có thể nhận kết nối từ nhiều sender khác nhau, nội dung file sẽ phân biệt file từ sender nào bằng các tham số như địa chỉ IP và số hiệu cồng kết nối bên sender. 
+
+Trong bài tập này để minh họa, các *udp_sender2* sẽ thực hiện gửi file `dummy.txt` liên tục tới *udp_receiver2*, bên phía receiver nhận được sẽ thêm vào file được định danh như sau:
+
+> địa_chỉ_ip_sender:cổng_sender.log
+
+Các bước thực hiện cho kết quả như sau: Khởi động 1 receiver và chạy số sender tùy ý (trong ví dụ này là 2 sender). Ta có kết quả như sau:
+
+<figure>
+  <img src="../_img/W5-e14-receiver.png" alt="Result on Sender side"/>
+  <figcaption>Bên receiver đã đưa ra thông báo nhận được file từ 2 sender lần lượt là <b>127.0.0.1:39821</b> và <b>127.0.0.1:38817</b>.</figcaption>
+</figure>
+
+<figure>
+  <img src="../_img/W5-e14-log-files.png" alt="Log files appear"/>
+  <figcaption>Nội dung file được ghi vào các file log tương ứng với socket gửi của các sender.</figcaption>
+</figure> 

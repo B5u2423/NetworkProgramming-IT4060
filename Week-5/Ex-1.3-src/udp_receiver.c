@@ -46,11 +46,11 @@ int main(int argc, char * argv[])
     }
 
     // Verifying Port
-    if (VerifyPort(argv[1]) == -1) {
+    int port = VerifyPort(argv[1]);
+    if (port == -1) {
         puts("[**ERROR]: Invalid Port.");
         exit(1);
     }
-    int port = atoi(argv[1]);
 
     // Initializing socket
     int sock_fd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
@@ -70,22 +70,31 @@ int main(int argc, char * argv[])
     
     // Receiving datagram
     char buff[MAX_SIZE];
+    // int name_flag = 0;   
     while (1) {
-        int recv_byte = recvfrom(sock_fd, buff, sizeof(buff), 0, NULL, NULL);
+        int recv_byte = recvfrom(sock_fd, buff, sizeof(buff), 0, NULL, NULL);        
         if (recv_byte == -1) {
             puts("recvfrom() failed.");
             break;
         } else {
             buff[recv_byte] = 0;
+            char rcv_filename[30];
+            int str_ptr = strcspn(buff, " ");
+
+            strncpy(rcv_filename, buff, str_ptr);
 
             FILE * f_handler;
             f_handler = fopen(SAVE_FILE_PATH, "w");
             puts("--------------------------------");
-            puts("Saved to receiver_datagram.txt:");
+            printf("File received from Client: %s\n", rcv_filename);;
+            puts("Saved to 'receiver_datagram.txt'.");
             puts("--------------------------------");
-            puts(buff);
-            fwrite(buff, strlen(buff), 1, f_handler);
+            puts(buff + str_ptr + 1);
+            // fwrite(buff, strlen(buff), 1, f_handler);
+            fprintf(f_handler, "%s", buff + str_ptr + 1);
             fclose(f_handler);
+
+            memset(buff, 0, sizeof(buff));
         }
     }
 }
