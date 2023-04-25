@@ -11,7 +11,7 @@ Các Assignment mỗi tuần sẽ được đăng trong các thư mục tương 
 
 ## Công Cụ Sử Dụng
 
-* **Môi trường cài đặt**: WSL Ubuntu 18.04 
+* **Môi trường cài đặt**: WSL Ubuntu 20.04 
 * **Editor:** VSCode (*Extensions:* WSL, C/C++)
 * **Compiler:** GCC version 7.5.0
 
